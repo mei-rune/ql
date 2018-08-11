@@ -2,7 +2,7 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
-package ql // import "modernc.org/ql"
+package ql
 
 import (
 	"bytes"
@@ -60,6 +60,32 @@ var (
 		qUint8:      "uint8",
 	}
 )
+
+func isIndexNull(data []interface{}) bool {
+	for _, v := range data {
+		if v != nil {
+			return false
+		}
+	}
+	return true
+}
+
+func expand1(data interface{}, e error) (v interface{}, err error) {
+	if e != nil {
+		return nil, e
+	}
+
+	return data, nil
+}
+
+func expand(data []interface{}) (err error) {
+	for i, v := range data {
+		if data[i], err = expand1(v, nil); err != nil {
+			return
+		}
+	}
+	return
+}
 
 func typeStr(typ int) (r string) {
 	return type2Str[typ]
@@ -2696,25 +2722,25 @@ func collate1(a, b interface{}) int {
 		default:
 			panic("internal error 034")
 		}
-	case chunk:
-		switch y := b.(type) {
-		case nil:
-			return 1
-		case chunk:
-			a, err := x.expand()
-			if err != nil {
-				panic(err)
-			}
+	// case chunk:
+	// 	switch y := b.(type) {
+	// 	case nil:
+	// 		return 1
+	// 	case chunk:
+	// 		a, err := x.expand()
+	// 		if err != nil {
+	// 			panic(err)
+	// 		}
 
-			b, err := y.expand()
-			if err != nil {
-				panic(err)
-			}
+	// 		b, err := y.expand()
+	// 		if err != nil {
+	// 			panic(err)
+	// 		}
 
-			return collate1(a, b)
-		default:
-			panic("internal error 035")
-		}
+	// 		return collate1(a, b)
+	// 	default:
+	// 		panic("internal error 035")
+	// 	}
 	default:
 		//dbg("%T(%v) %T(%v)", a, a, b, b)
 		panic("internal error 036")
@@ -2772,12 +2798,12 @@ func isOrderedType(v interface{}) (y interface{}, r bool, err error) {
 		return v, true, nil
 	case *big.Int, *big.Rat, time.Time, time.Duration:
 		return x, true, nil
-	case chunk:
-		if y, err = x.expand(); err != nil {
-			return
-		}
+		// case chunk:
+		// 	if y, err = x.expand(); err != nil {
+		// 		return
+		// 	}
 
-		return isOrderedType(y)
+		// 	return isOrderedType(y)
 	}
 
 	return v, false, nil
@@ -2799,4 +2825,104 @@ func qnames(l []string) []string {
 		r[i] = fmt.Sprintf("%q", v)
 	}
 	return r
+}
+
+//NTYPE
+func infer(from []interface{}, to *[]*col) {
+	if len(*to) == 0 {
+		*to = make([]*col, len(from))
+		for i := range *to {
+			(*to)[i] = &col{}
+		}
+	}
+	for i, c := range *to {
+		if f := from[i]; f != nil {
+			switch x := f.(type) {
+			//case nil:
+			case idealComplex:
+				c.typ = qComplex128
+				from[i] = complex128(x)
+			case idealFloat:
+				c.typ = qFloat64
+				from[i] = float64(x)
+			case idealInt:
+				c.typ = qInt64
+				from[i] = int64(x)
+			case idealRune:
+				c.typ = qInt32
+				from[i] = int32(x)
+			case idealUint:
+				c.typ = qUint64
+				from[i] = uint64(x)
+			case bool:
+				c.typ = qBool
+			case complex128:
+				c.typ = qComplex128
+			case complex64:
+				c.typ = qComplex64
+			case float64:
+				c.typ = qFloat64
+			case float32:
+				c.typ = qFloat32
+			case int8:
+				c.typ = qInt8
+			case int16:
+				c.typ = qInt16
+			case int32:
+				c.typ = qInt32
+			case int64:
+				c.typ = qInt64
+			case string:
+				c.typ = qString
+			case uint8:
+				c.typ = qUint8
+			case uint16:
+				c.typ = qUint16
+			case uint32:
+				c.typ = qUint32
+			case uint64:
+				c.typ = qUint64
+			case []byte:
+				c.typ = qBlob
+			case *big.Int:
+				c.typ = qBigInt
+			case *big.Rat:
+				c.typ = qBigRat
+			case time.Time:
+				c.typ = qTime
+			case time.Duration:
+				c.typ = qDuration
+			// case chunk:
+			// 	vals, err := lldb.DecodeScalars(x.b)
+			// 	if err != nil {
+			// 		panic(err)
+			// 	}
+
+			// 	if len(vals) == 0 {
+			// 		panic("internal error 040")
+			// 	}
+
+			// 	i, ok := vals[0].(int64)
+			// 	if !ok {
+			// 		panic("internal error 041")
+			// 	}
+
+			// 	c.typ = int(i)
+			case map[string]interface{}: // map of ids of a cross join
+			default:
+				panic("internal error 042")
+			}
+		}
+	}
+}
+
+func errSet(p *error, errs ...error) (err error) {
+	err = *p
+	for _, e := range errs {
+		if err != nil {
+			return
+		}
+		*p, err = e, e
+	}
+	return
 }

@@ -2,16 +2,14 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
-package ql // import "modernc.org/ql"
+package ql
 
 import (
 	"bytes"
 	"fmt"
 	"strings"
 
-	"sync"
-
-	"modernc.org/strutil"
+	"github.com/cznic/ql/strutil"
 )
 
 // NOTE: all stmt implementations must be safe for concurrent use by multiple
@@ -126,7 +124,7 @@ type execCtx struct { //LATER +shared temp
 	db    *DB
 	arg   []interface{}
 	cache map[interface{}]interface{}
-	mu    sync.RWMutex
+	mu    RWMutex
 }
 
 func newExecCtx(db *DB, arg []interface{}) *execCtx {
@@ -356,14 +354,14 @@ func (s *deleteStmt) exec(ctx *execCtx) (_ Recordset, err error) {
 	blobCols := t.blobCols()
 	cc := ctx.db.cc
 	for h = t.head; h != 0; ph, h = h, nh {
-		for i, v := range data {
-			c, ok := v.(chunk)
-			if !ok {
-				continue
-			}
+		// for i, v := range data {
+		// 	c, ok := v.(chunk)
+		// 	if !ok {
+		// 		continue
+		// 	}
+		// 	data[i] = c.b
+		// }
 
-			data[i] = c.b
-		}
 		// Read can return lazily expanded chunks
 		data, err = t.store.Read(nil, h, t.cols...)
 		if err != nil {
@@ -439,11 +437,11 @@ func (s *deleteStmt) exec(ctx *execCtx) (_ Recordset, err error) {
 				return nil, err
 			}
 
-			for i, v := range pdata {
-				if x, ok := v.(chunk); ok {
-					pdata[i] = x.b
-				}
-			}
+			// for i, v := range pdata {
+			// 	if x, ok := v.(chunk); ok {
+			// 		pdata[i] = x.b
+			// 	}
+			// }
 			pdata[0] = nh
 			if err = t.store.Update(ph, pdata...); err != nil {
 				return nil, err

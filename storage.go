@@ -2,7 +2,7 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
-package ql // import "modernc.org/ql"
+package ql
 
 import (
 	"fmt"
@@ -74,7 +74,8 @@ type index2 struct { // Expression list index.
 }
 
 func (x *index2) eval(ctx *execCtx, cols []*col, id int64, r []interface{}) ([]interface{}, error) {
-	f, isFile := ctx.db.store.(*file)
+	//f, isFile := ctx.db.store.(*file)
+
 	vlist := make([]interface{}, len(x.exprList))
 	m := map[interface{}]interface{}{"$id": id}
 	for _, col := range cols {
@@ -83,12 +84,12 @@ func (x *index2) eval(ctx *execCtx, cols []*col, id int64, r []interface{}) ([]i
 		if ci < len(r) {
 			v = r[ci]
 		}
-		if b, ok := v.([]byte); ok && isFile {
-			var err error
-			if v, err = expand1(chunk{f: f, b: b}, nil); err != nil {
-				return nil, err
-			}
-		}
+		// if b, ok := v.([]byte); ok && isFile {
+		// 	var err error
+		// 	if v, err = expand1(chunk{f: f, b: b}, nil); err != nil {
+		// 		return nil, err
+		// 	}
+		// }
 		m[col.name] = v
 	}
 	for i, e := range x.exprList {

@@ -58,12 +58,12 @@ Referenced from above:
   [2]: http://golang.org/pkg/database/sql/#Open
   [3]: http://golang.org/pkg/database/sql/driver
 */
-package driver // import "modernc.org/ql/driver"
+package driver // import "github.com/cznic/ql/driver"
 
-import "modernc.org/ql"
+import "github.com/cznic/ql"
 
 func init() {
-	ql.RegisterDriver()
-	ql.RegisterDriver2()
+	// ql.RegisterDriver()
+	// ql.RegisterDriver2()
 	ql.RegisterMemDriver()
 }

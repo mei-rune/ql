@@ -20,7 +20,7 @@ import (
 	"fmt"
 	"strings"
 
-	"modernc.org/strutil"
+	"github.com/cznic/ql/strutil"
 )
 
 %}

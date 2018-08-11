@@ -2,7 +2,7 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
-package ql // import "modernc.org/ql"
+package ql
 
 import (
 	"bytes"
@@ -27,7 +27,7 @@ import (
 	"testing"
 	"time"
 
-	"modernc.org/strutil"
+	"github.com/cznic/ql/strutil"
 )
 
 // Note: All benchmarks report MB/s equal to record/s.
@@ -4186,7 +4186,7 @@ func TestSleep(t *testing.T) {
 
 		// The duration should be 5 seconds
 		e := end.String()
-		if !strings.HasPrefix(e, "5.") {
+		if !strings.HasPrefix(e, "5.") && e != "5s" {
 			t.Errorf("expected 5s got %s", e)
 		}
 	}

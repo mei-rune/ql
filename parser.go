@@ -18,7 +18,7 @@ import __yyfmt__ "fmt"
 import (
 	"fmt"
 
-	"modernc.org/mathutil"
+	"github.com/cznic/ql/mathutil"
 )
 
 type yySymType struct {

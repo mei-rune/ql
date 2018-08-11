@@ -1,5 +1,4 @@
-ql
-==
+`github.com/cznic/ql` has moved to [`modernc.org/ql`](https://godoc.org/modernc.org/ql) ([vcs](https://gitlab.com/cznic/ql)).
 
 Package ql is a pure Go embedded (S)QL database.
 
@@ -19,3 +18,4 @@ Installation
 
 Documentation: [godoc.org/modernc.org/ql/ql](http://godoc.org/modernc.org/ql/ql)
 
+This repo is now archived.

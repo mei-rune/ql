@@ -16,8 +16,9 @@ require (
 	modernc.org/lex v1.0.0 // indirect
 	modernc.org/lexer v1.0.0 // indirect
 	modernc.org/lldb v1.0.0
-	modernc.org/mathutil v1.0.0
 	modernc.org/sortutil v1.0.0 // indirect
 	modernc.org/strutil v1.0.0
 	modernc.org/zappy v1.0.0 // indirect
 )
+
+go 1.13
