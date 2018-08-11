@@ -4186,7 +4186,7 @@ func TestSleep(t *testing.T) {
 
 		// The duration should be 5 seconds
 		e := end.String()
-		if !strings.HasPrefix(e, "5.") {
+		if !strings.HasPrefix(e, "5.") && e != "5s" {
 			t.Errorf("expected 5s got %s", e)
 		}
 	}
