@@ -8,14 +8,14 @@
 //
 //  $ ebnf2y -o ql.y -oe ql.ebnf -start StatementList -pkg ql -p _
 // 
-//   [1]: http://github.com/cznic/ebnf2y
+//   [1]: http://modernc.org/ebnf2y
 
 package ql
 
 import (
 	"fmt"
 
-	"github.com/cznic/mathutil"
+	"modernc.org/mathutil"
 )
 
 %}

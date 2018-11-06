@@ -10,7 +10,7 @@
 // CAUTION: If this file is a Go source file (*.go), it was generated
 // automatically by '$ go tool yacc' from a *.y file - DO NOT EDIT in that case!
 // 
-//   [1]: http://github.com/cznic/ebnf2y
+//   [1]: http://modernc.org/ebnf2y
 
 package ql //TODO real package name
 
@@ -20,7 +20,7 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/cznic/strutil"
+	"modernc.org/strutil"
 )
 
 %}
