@@ -285,9 +285,9 @@ Links
 
 Referenced from above:
 
-  [0]: http://godoc.org/github.com/cznic/lldb#hdr-Block_handles
-  [1]: http://godoc.org/github.com/cznic/lldb#EncodeScalars
-  [2]: http://godoc.org/github.com/cznic/lldb#BTree
+  [0]: http://godoc.org/modernc.org/lldb#hdr-Block_handles
+  [1]: http://godoc.org/modernc.org/lldb#EncodeScalars
+  [2]: http://godoc.org/modernc.org/lldb#BTree
 
 Rationale
 
@@ -295,4 +295,4 @@ While these notes might be useful to anyone looking at QL sources, the
 specifically intended reader is my future self.
 
 */
-package design
+package design // import "modernc.org/ql/design"

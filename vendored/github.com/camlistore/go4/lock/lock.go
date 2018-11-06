@@ -15,7 +15,7 @@ limitations under the License.
 */
 
 // Package lock is a file locking library.
-package lock
+package lock // import "modernc.org/ql/vendored/github.com/camlistore/go4/lock"
 
 import (
 	"encoding/json"

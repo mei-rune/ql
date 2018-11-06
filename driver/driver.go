@@ -16,7 +16,7 @@ A skeleton program using ql/driver.
 	import (
 		"database/sql"
 
-		_ "github.com/cznic/ql/driver"
+		_ "modernc.org/ql/driver"
 	)
 
 	func main() {
@@ -53,14 +53,14 @@ Links
 
 Referenced from above:
 
-  [0]: http://godoc.org/github.com/cznic/ql
+  [0]: http://godoc.org/modernc.org/ql
   [1]: http://golang.org/pkg/database/sql/
   [2]: http://golang.org/pkg/database/sql/#Open
   [3]: http://golang.org/pkg/database/sql/driver
 */
-package driver
+package driver // import "modernc.org/ql/driver"
 
-import "github.com/cznic/ql"
+import "modernc.org/ql"
 
 func init() {
 	ql.RegisterDriver()

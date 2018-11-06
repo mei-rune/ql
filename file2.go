@@ -2,7 +2,7 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
-package ql
+package ql // import "modernc.org/ql"
 
 import (
 	"encoding/binary"
@@ -12,11 +12,11 @@ import (
 	"math"
 	"os"
 
-	"github.com/cznic/db"
-	cfile "github.com/cznic/file"
-	"github.com/cznic/internal/buffer"
-	"github.com/cznic/lldb"
-	"github.com/cznic/ql/vendored/github.com/camlistore/go4/lock"
+	"modernc.org/db"
+	cfile "modernc.org/file"
+	"modernc.org/internal/buffer"
+	"modernc.org/lldb"
+	"modernc.org/ql/vendored/github.com/camlistore/go4/lock"
 )
 
 var (

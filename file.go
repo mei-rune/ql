@@ -6,7 +6,7 @@
 // 1: root
 // 2: id
 
-package ql
+package ql // import "modernc.org/ql"
 
 import (
 	"bytes"
@@ -20,9 +20,9 @@ import (
 	"sync"
 	"time"
 
-	"github.com/cznic/lldb"
-	"github.com/cznic/mathutil"
-	"github.com/cznic/ql/vendored/github.com/camlistore/go4/lock"
+	"modernc.org/lldb"
+	"modernc.org/mathutil"
+	"modernc.org/ql/vendored/github.com/camlistore/go4/lock"
 )
 
 const (

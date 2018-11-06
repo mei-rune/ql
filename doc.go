@@ -37,27 +37,27 @@
 // 2017-01-10: Release v1.1.0 fixes some bugs and adds a configurable WAL
 // headroom.
 //
-//	https://github.com/cznic/ql/issues/140
+//	https://gitlab.com/cznic/ql/issues/140
 //
 // 2016-07-29: Release v1.0.6 enables alternatively using = instead of == for
 // equality operation.
 //
-// 	https://github.com/cznic/ql/issues/131
+// 	https://gitlab.com/cznic/ql/issues/131
 //
 // 2016-07-11: Release v1.0.5 undoes vendoring of lldb. QL now uses stable lldb
-// (github.com/cznic/lldb).
+// (modernc.org/lldb).
 //
-// 	https://github.com/cznic/ql/issues/128
+// 	https://gitlab.com/cznic/ql/issues/128
 //
 // 2016-07-06: Release v1.0.4 fixes a panic when closing the WAL file.
 //
-//	https://github.com/cznic/ql/pull/127
+//	https://gitlab.com/cznic/ql/pull/127
 //
 // 2016-04-03: Release v1.0.3 fixes a data race.
 //
-//	https://github.com/cznic/ql/issues/126
+//	https://gitlab.com/cznic/ql/issues/126
 //
-// 2016-03-23: Release v1.0.2 vendors github.com/cznic/exp/lldb and
+// 2016-03-23: Release v1.0.2 vendors gitlab.com/cznic/exp/lldb and
 // github.com/camlistore/go4/lock.
 //
 // 2016-03-17: Release v1.0.1 adjusts for latest goyacc. Parser error messages
@@ -171,15 +171,15 @@
 // required, please include 'purego' in the -tags option of go
 // {build,get,install}. For example:
 //
-//	$ go get -tags purego github.com/cznic/ql
+//	$ go get -tags purego modernc.org/ql
 //
 // If zappy was installed before installing QL, it might be necessary to
 // rebuild zappy first (or rebuild QL with all its dependencies using the -a
 // option):
 //
-//	$ touch "$GOPATH"/src/github.com/cznic/zappy/*.go
-//	$ go install -tags purego github.com/cznic/zappy
-//	$ go install github.com/cznic/ql
+//	$ touch "$GOPATH"/src/modernc.org/zappy/*.go
+//	$ go install -tags purego modernc.org/zappy
+//	$ go install modernc.org/ql
 //
 // Notation
 //
@@ -2590,7 +2590,7 @@
 //	[5]: http://golang.org/LICENSE
 //	[6]: http://golang.org/pkg/regexp/#Regexp.MatchString
 //	[7]: http://developer.mimer.com/validator/sql-reserved-words.tml
-//	[8]: http://godoc.org/github.com/cznic/zappy
+//	[8]: http://godoc.org/modernc.org/zappy
 //	[9]: http://www.w3schools.com/sql/sql_default.asp
 //	[10]: http://en.wikipedia.org/wiki/Join_(SQL)#Outer_join
 //
@@ -2664,9 +2664,9 @@
 //		all_test.go:321: Having a table of 1000 records, each of size 1kB, measure the performance of
 //			SELECT * FROM t;
 //
-//	ok  	github.com/cznic/ql	7.496s
+//	ok  	modernc.org/ql	7.496s
 //	$
 //
 // Running the full suite of benchmarks takes a lot of time. Use the -timeout
 // flag to avoid them being killed after the default time limit (10 minutes).
-package ql
+package ql // import "modernc.org/ql"

@@ -8,7 +8,7 @@
 //
 // DO NOT EDIT!
 
-package ql
+package ql // import "modernc.org/ql"
 
 import (
 	"math"

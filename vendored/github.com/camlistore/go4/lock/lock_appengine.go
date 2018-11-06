@@ -16,7 +16,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-package lock
+package lock // import "modernc.org/ql/vendored/github.com/camlistore/go4/lock"
 
 import (
 	"errors"

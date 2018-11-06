@@ -7,7 +7,7 @@
 //
 // Installation:
 //
-//	$ go get github.com/cznic/ql/ql
+//	$ go get modernc.org/ql/ql
 //
 // Usage:
 //
@@ -63,7 +63,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/cznic/ql"
+	"modernc.org/ql"
 )
 
 func str(data []interface{}) string {

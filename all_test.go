@@ -2,7 +2,7 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
-package ql
+package ql // import "modernc.org/ql"
 
 import (
 	"bytes"
@@ -27,7 +27,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/cznic/strutil"
+	"modernc.org/strutil"
 )
 
 // Note: All benchmarks report MB/s equal to record/s.
@@ -2344,7 +2344,7 @@ func dumpFields(f []*fld) string {
 func TestIssue50(t *testing.T)   { testIssue50(t, "ql") }
 func TestIssue50v2(t *testing.T) { testIssue50(t, "ql2") }
 
-func testIssue50(t *testing.T, drv string) { // https://github.com/cznic/ql/issues/50
+func testIssue50(t *testing.T, drv string) { // https://gitlab.com/cznic/ql/issues/50
 	if testing.Short() {
 		t.Skip("skipping test in short mode.")
 	}
@@ -3726,7 +3726,7 @@ func TestIssue109(t *testing.T) {
 func TestIssue142(t *testing.T)   { testIssue142(t, "ql") }
 func TestIssue142v2(t *testing.T) { testIssue142(t, "ql2") }
 
-// https://github.com/cznic/ql/issues/142
+// https://gitlab.com/cznic/ql/issues/142
 func testIssue142(t *testing.T, drv string) {
 	cwd, err := os.Getwd()
 	if err != nil {
@@ -3802,7 +3802,7 @@ func TestTokenize(t *testing.T) {
 }
 
 // Both of the UPDATEs _should_ work but the 2nd one results in a _type missmatch_ error at the time of writing.
-// see https://github.com/cznic/ql/issues/190
+// see https://gitlab.com/cznic/ql/issues/190
 func TestIssue190(t *testing.T) {
 	RegisterMemDriver()
 	db, err := sql.Open("ql-mem", "mem.test")
@@ -4266,7 +4266,7 @@ func TestBlobCompare(t *testing.T) {
 	}
 }
 
-// https://github.com/cznic/ql/issues/195
+// https://gitlab.com/cznic/ql/issues/195
 func TestIssue195(t *testing.T) {
 	db, err := OpenMem()
 	if err != nil {

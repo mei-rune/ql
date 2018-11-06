@@ -6,7 +6,7 @@
 //LATER profile cpu
 //LATER coverage
 
-package ql
+package ql // import "modernc.org/ql"
 
 import (
 	"bytes"
@@ -18,7 +18,7 @@ import (
 	"sync"
 	"time"
 
-	"github.com/cznic/strutil"
+	"modernc.org/strutil"
 )
 
 const (
