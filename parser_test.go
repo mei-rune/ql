@@ -64,6 +64,16 @@ func TestParser0(t *testing.T) {
 		{"CREATE TABLE foo (a uint16, b uint32,) // foo", true},
 		{"CREATE TABLE foo (a uint16, b uint32,) /* foo */", true},
 		{"CREATE TABLE foo /* foo */ (a uint16, b uint32,) /* foo */", true},
+		{"CREATE TABLE «TRANSACTION» (a int)", true},
+		{"CREATE TABLE «TRANSACTION (a int)", false},
+		// 45
+		{"CREATE TABLE «duration» (a duration)", true},
+		{"CREATE TABLE «duration (a duration)", false},
+		{"CREATE TABLE «name with spaces» (a int)", true},
+		{"CREATE TABLE «name with spaces (a int)", false},
+		{"CREATE TABLE «price €» (a int)", true},
+		// 50
+		{"CREATE TABLE «price € (a int)", false},
 		{`-- Examples
 		ALTER TABLE Stock ADD Qty int;
 	
