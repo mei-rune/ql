@@ -2116,6 +2116,15 @@
 //
 //	SELECT salesperson, avg(sales) FROM salesforce GROUP BY salesperson;
 //
+// Coalesce
+//
+// The built-in function coalesce takes at least one argument and returns
+// the first of its arguments which is not NULL. If all arguments are NULL,
+// this function returns NULL. This is useful for providing defaults
+// for NULL values in a select query.
+//
+//  func coalesce(args ...interface{}) interface{}
+//
 // Contains
 //
 // The built-in function contains returns true if substr is within s.
