@@ -280,11 +280,16 @@
 //
 // Identifiers
 //
-// Identifiers name entities such as tables or record set columns. An
-// identifier is a sequence of one or more letters and digits. The first
-// character in an identifier must be a letter.
+// Identifiers name entities such as tables or record set columns.
+// There are two kinds of identifioers, normal idententifiers and quoted
+// identifiers.
 //
-//  identifier = letter { letter | decimal_digit | unicode_digit } .
+//  indentifier = normal_identifier | quoted_identifier.
+//
+// An normal identifier is a sequence of one or more letters and digits.
+// The first character in an identifier must be a letter.
+//
+//  normal_identifier = letter { letter | decimal_digit | unicode_digit } .
 //
 // For example
 //
@@ -292,10 +297,25 @@
 // 	_tmp42
 // 	Sales
 //
+// A quoted identifier is a string of any charaters beween guillmets «».
+// Quoted identifiers allow QL key words or phrases with spaces to be used
+// as identifiers. The guillemets were chosen because QL already uses
+// double quotes, single quotes, and backticks for other quoting purposes.
+//
+//  quoted_identifier = "«" { unicode_char | newline } "»".
+//
+// For example
+//
+// «TRANSACTION»
+// «duration»
+// «lovely stories»
+//
+//
 // No identifiers are predeclared, however note that no keyword can be used as
-// an identifier.  Identifiers starting with two underscores are used for meta
-// data virtual tables names. For forward compatibility, users should generally
-// avoid using any identifiers starting with two underscores. For example
+// a normal identifier.  Identifiers starting with two underscores are used for
+// meta data virtual tables names. For forward compatibility, users should
+// generally avoid using any identifiers starting with two underscores.
+// For example
 //
 //	__Column
 //	__Column2

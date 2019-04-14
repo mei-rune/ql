@@ -65,6 +65,12 @@ func TestScanner0(t *testing.T) {
 		{"2.3", floatLit, 1, 1, 1, 4, "2.3"},
 
 		{"ááá ", identifier, 1, 1, 1, 7, "ááá"},
+
+		{`«id with spaces»`, identifier, 1, 1, 1, 19, "«id with spaces»"},
+		{`«TRANSACTION»`, identifier, 1, 1, 1, 16, "«TRANSACTION»"},
+		{"«-+ \t\r\n!\"#$%&'()*,./:;<=>?@[\\]^{|}~=>`»", identifier,
+			1, 1, 2, 34, "«-+ \t\r\n!\"#$%&'()*,./:;<=>?@[\\]^{|}~=>`»"},
+		{`«€/µg»`, identifier, 1, 1, 1, 12, "«€/µg»"},
 	}
 
 	lval := &yySymType{}
