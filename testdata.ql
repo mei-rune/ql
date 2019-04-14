@@ -15794,3 +15794,31 @@ BEGIN TRANSACTION;
 COMMIT;
 SELECT * FROM t;
 |"a", "b", "c"
+
+-- 1359 // https://gitlab.com/cznic/ql/issues/211
+BEGIN TRANSACTION;
+        CREATE TABLE people (name string);
+        INSERT INTO people VALUES ("alice");
+COMMIT;
+SELECT coalesce(name, "default") as result FROM people;
+|"result"
+[alice]
+
+-- 1360 // https://gitlab.com/cznic/ql/issues/211
+BEGIN TRANSACTION;
+        CREATE TABLE people (name string);
+        INSERT INTO people VALUES (NULL);
+COMMIT;
+SELECT coalesce(name, "default") as result FROM people;
+|"result"
+[default]
+
+-- 1361 // https://gitlab.com/cznic/ql/issues/211
+BEGIN TRANSACTION;
+        CREATE TABLE people (name string);
+        INSERT INTO people VALUES (NULL);
+COMMIT;
+SELECT coalesce(name, NULL, NULL, NULL, 
+                NULL, NULL, NULL, NULL, "default") as result FROM people;
+|"result"
+[default]
