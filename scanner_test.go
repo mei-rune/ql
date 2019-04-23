@@ -68,8 +68,8 @@ func TestScanner0(t *testing.T) {
 
 		{`«id with spaces»`, identifier, 1, 1, 1, 19, "«id with spaces»"},
 		{`«TRANSACTION»`, identifier, 1, 1, 1, 16, "«TRANSACTION»"},
-		{"«-+ \t\r\n!\"#$%&'()*,./:;<=>?@[\\]^{|}~=>`»", identifier,
-			1, 1, 2, 34, "«-+ \t\r\n!\"#$%&'()*,./:;<=>?@[\\]^{|}~=>`»"},
+		{"«-+ \t!\"#$%&'()*,./:;<=>?@[\\]^{|}~=>`»", identifier,
+			1, 1, 1, 40, "«-+ \t!\"#$%&'()*,./:;<=>?@[\\]^{|}~=>`»"},
 		{`«€/µg»`, identifier, 1, 1, 1, 12, "«€/µg»"},
 	}
 

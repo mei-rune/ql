@@ -4231,7 +4231,7 @@ yystate315:
 	switch {
 	default:
 		goto yyabort
-	case c == '\t' || c == '\n' || c == '\r' || c >= ' ' && c <= '~' || c >= '\u0080' && c <= '\u0083':
+	case c >= '\x01' && c <= '\t' || c == '\v' || c == '\f' || c >= '\x0e' && c <= '\u0084' || c >= '\u0086' && c <= 'ÿ':
 		goto yystate316
 	}
 
@@ -4240,10 +4240,10 @@ yystate316:
 	switch {
 	default:
 		goto yyabort
-	case c == '\t' || c == '\n' || c == '\r' || c >= ' ' && c <= '~' || c >= '\u0080' && c <= '\u0083':
-		goto yystate316
 	case c == '\u0085':
 		goto yystate317
+	case c >= '\x01' && c <= '\t' || c == '\v' || c == '\f' || c >= '\x0e' && c <= '\u0084' || c >= '\u0086' && c <= 'ÿ':
+		goto yystate316
 	}
 
 yystate317:
@@ -4434,7 +4434,7 @@ yyrule14: // ([^`]|\n)*`
 	{
 		return l.str(lval, "`")
 	}
-yyrule15: // {og}{dident}{cg}
+yyrule15: // {og}[^\n\r\x85]+{cg}
 	{
 		return l.delimitedIdentifier(lval)
 		return identifier
