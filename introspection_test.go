@@ -2,7 +2,7 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
-package ql // import "modernc.org/ql"
+package ql 
 
 import (
 	"bytes"
@@ -12,7 +12,7 @@ import (
 	"testing"
 	"time"
 
-	"modernc.org/mathutil"
+	"github.com/cznic/ql/mathutil"
 )
 
 type (

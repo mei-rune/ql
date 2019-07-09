@@ -2,15 +2,15 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
-package ql // import "modernc.org/ql"
+package ql 
 
 import (
 	"bytes"
 	"fmt"
 	"strings"
 
-	"modernc.org/b"
-	"modernc.org/strutil"
+	"github.com/cznic/ql/b"
+	"github.com/cznic/ql/strutil"
 )
 
 const (

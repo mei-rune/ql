@@ -15,7 +15,7 @@ package ql
 import (
 	"fmt"
 
-	"modernc.org/mathutil"
+	"github.com/cznic/ql/mathutil"
 )
 
 %}

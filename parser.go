@@ -11,14 +11,14 @@
 //
 //   [1]: http://modernc.org/ebnf2y
 
-package ql // import "modernc.org/ql"
+package ql 
 
 import __yyfmt__ "fmt"
 
 import (
 	"fmt"
 
-	"modernc.org/mathutil"
+	"github.com/cznic/ql/mathutil"
 )
 
 type yySymType struct {

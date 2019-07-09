@@ -4,7 +4,7 @@
 
 // database/sql/driver
 
-package ql // import "modernc.org/ql"
+package ql
 
 import (
 	"bytes"
@@ -15,9 +15,7 @@ import (
 	"io"
 	"math/big"
 	"net/url"
-	"os"
 	"path/filepath"
-	"strconv"
 	"strings"
 	"sync"
 	"time"
@@ -73,63 +71,9 @@ func params(args []driver.Value) []interface{} {
 }
 
 var (
-	file2Driver     = &sqlDriver{dbs: map[string]*driverDB{}}
-	file2DriverOnce sync.Once
-	fileDriver      = &sqlDriver{dbs: map[string]*driverDB{}}
-	fileDriverOnce  sync.Once
-	memDriver       = &sqlDriver{isMem: true, dbs: map[string]*driverDB{}}
-	memDriverOnce   sync.Once
+	memDriver     = &sqlDriver{isMem: true, dbs: map[string]*driverDB{}}
+	memDriverOnce sync.Once
 )
-
-// RegisterDriver registers a QL database/sql/driver[0] named "ql". The name
-// parameter of
-//
-//	sql.Open("ql", name)
-//
-// is interpreted as a path name to a named DB file which will be created if
-// not present. The underlying QL database data are persisted on db.Close().
-// RegisterDriver can be safely called multiple times, it'll register the
-// driver only once.
-//
-// The name argument can be optionally prefixed by "file://". In that case the
-// prefix is stripped before interpreting it as a file name.
-//
-// The name argument can be optionally prefixed by "memory://". In that case
-// the prefix is stripped before interpreting it as a name of a memory-only,
-// volatile DB.
-//
-// The ql2 driver can open both the original (V1) files and the new (V2) ones.
-// It defaults to V1 on creating a new database.
-//
-//  [0]: http://golang.org/pkg/database/sql/driver/
-func RegisterDriver() {
-	fileDriverOnce.Do(func() { sql.Register("ql", fileDriver) })
-}
-
-// RegisterDriver2 registers a QL database/sql/driver[0] named "ql2". The name
-// parameter of
-//
-//	sql.Open("ql2", name)
-//
-// is interpreted as a path name to a named DB file which will be created if
-// not present. The underlying QL database data are persisted on db.Close().
-// RegisterDriver can be safely called multiple times, it'll register the
-// driver only once.
-//
-// The name argument can be optionally prefixed by "file://". In that case the
-// prefix is stripped before interpreting it as a file name.
-//
-// The name argument can be optionally prefixed by "memory://". In that case
-// the prefix is stripped before interpreting it as a name of a memory-only,
-// volatile DB.
-//
-// The ql2 driver can open both the original (V1) files and the new (V2) ones.
-// It defaults to V2 on creating a new database.
-//
-//  [0]: http://golang.org/pkg/database/sql/driver/
-func RegisterDriver2() {
-	file2DriverOnce.Do(func() { sql.Register("ql2", file2Driver) })
-}
 
 // RegisterMemDriver registers a QL memory database/sql/driver[0] named
 // "ql-mem".  The name parameter of
@@ -182,10 +126,6 @@ func (d *sqlDriver) lock() func() {
 //	headroom	Size of the WAL headroom. See https://gitlab.com/cznic/ql/issues/140.
 func (d *sqlDriver) Open(name string) (driver.Conn, error) {
 	switch {
-	case d == fileDriver || d == file2Driver:
-		if !strings.Contains(name, "://") && !strings.HasPrefix(name, "file") {
-			name = "file://" + name
-		}
 	case d == memDriver:
 		if !strings.Contains(name, "://") && !strings.HasPrefix(name, "memory") {
 			name = "memory://" + name
@@ -201,8 +141,6 @@ func (d *sqlDriver) Open(name string) (driver.Conn, error) {
 	}
 
 	switch uri.Scheme {
-	case "file":
-		// ok
 	case "memory":
 		d = memDriver
 	default:
@@ -210,21 +148,14 @@ func (d *sqlDriver) Open(name string) (driver.Conn, error) {
 	}
 
 	name = filepath.Clean(filepath.Join(uri.Host, uri.Path))
-	if d == fileDriver && (name == "" || name == "." || name == string(os.PathSeparator)) {
-		return nil, fmt.Errorf("invalid DB name %q", name)
-	}
 
-	var headroom int64
-	if a := uri.Query()["headroom"]; len(a) != 0 {
-		if headroom, err = strconv.ParseInt(a[0], 10, 64); err != nil {
-			return nil, err
-		}
-	}
+	// var headroom int64
+	// if a := uri.Query()["headroom"]; len(a) != 0 {
+	// 	if headroom, err = strconv.ParseInt(a[0], 10, 64); err != nil {
+	// 		return nil, err
+	// 	}
+	// }
 
-	ff := 0
-	if d == file2Driver {
-		ff = 2
-	}
 	defer d.lock()()
 	db := d.dbs[name]
 	if db == nil {
@@ -234,7 +165,7 @@ func (d *sqlDriver) Open(name string) (driver.Conn, error) {
 		case true:
 			db0, err = OpenMem()
 		default:
-			db0, err = OpenFile(name, &Options{CanCreate: true, Headroom: headroom, FileFormat: ff})
+			panic("")
 		}
 		if err != nil {
 			return nil, err

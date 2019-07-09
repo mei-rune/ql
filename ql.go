@@ -6,7 +6,7 @@
 //LATER profile cpu
 //LATER coverage
 
-package ql // import "modernc.org/ql"
+package ql 
 
 import (
 	"bytes"
@@ -18,7 +18,7 @@ import (
 	"sync"
 	"time"
 
-	"modernc.org/strutil"
+	"github.com/cznic/ql/strutil"
 )
 
 const (
@@ -808,8 +808,8 @@ func (f *col) typeCheck(x interface{}) (ok bool) { //NTYPE
 		return f.typ == qTime
 	case time.Duration:
 		return f.typ == qDuration
-	case chunk:
-		return true // was checked earlier
+	// case chunk:
+	// 	return true // was checked earlier
 	}
 	return
 }

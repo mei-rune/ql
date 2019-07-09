@@ -1,6 +1,6 @@
 // +build go1.8
 
-package ql // import "modernc.org/ql"
+package ql 
 
 import (
 	"context"

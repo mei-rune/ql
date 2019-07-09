@@ -4,7 +4,7 @@
 
 // Plain memory storage back end.
 
-package ql // import "modernc.org/ql"
+package ql 
 
 import (
 	"bytes"
