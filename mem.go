@@ -4,14 +4,13 @@
 
 // Plain memory storage back end.
 
-package ql 
+package ql
 
 import (
 	"bytes"
 	"fmt"
 	"io"
 	"math/big"
-	"sync"
 	"time"
 )
 
@@ -248,7 +247,7 @@ type mem struct {
 	recycler []int
 	tnl      int
 	rollback *undos
-	mu       sync.RWMutex
+	mu       RWMutex
 }
 
 func newMemStorage() (s *mem, err error) {

@@ -14,8 +14,6 @@ import (
 	"fmt"
 	"io"
 	"math/big"
-	"net/url"
-	"path/filepath"
 	"strings"
 	"sync"
 	"time"
@@ -71,7 +69,7 @@ func params(args []driver.Value) []interface{} {
 }
 
 var (
-	memDriver     = &sqlDriver{isMem: true, dbs: map[string]*driverDB{}}
+	memDriver     = &sqlDriver{isMem: true}
 	memDriverOnce sync.Once
 )
 
@@ -102,15 +100,15 @@ func newDriverDB(db *DB, name string) *driverDB {
 
 // sqlDriver implements the interface required by database/sql/driver.
 type sqlDriver struct {
-	dbs   map[string]*driverDB
+	//dbs   map[string]*driverDB
 	isMem bool
-	mu    sync.Mutex
+	//mu    sync.Mutex
 }
 
-func (d *sqlDriver) lock() func() {
-	d.mu.Lock()
-	return d.mu.Unlock
-}
+//func (d *sqlDriver) lock() func() {
+//	d.mu.Lock()
+//	return d.mu.Unlock
+//}
 
 // Open returns a new connection to the database.  The name is a string in a
 // driver-specific format.
@@ -130,24 +128,33 @@ func (d *sqlDriver) Open(name string) (driver.Conn, error) {
 		if !strings.Contains(name, "://") && !strings.HasPrefix(name, "memory") {
 			name = "memory://" + name
 		}
+
+		db0, err := OpenMem()
+		if err != nil {
+			return nil, err
+		}
+
+		db := newDriverDB(db0, name)
+		return newDriverConn(memDriver, db), nil
+
 	default:
 		return nil, fmt.Errorf("open: unexpected/unsupported instance of driver.Driver: %p", d)
 	}
 
-	name = filepath.ToSlash(name) // Ensure / separated URLs on Windows
-	uri, err := url.Parse(name)
-	if err != nil {
-		return nil, err
-	}
+	//	name = filepath.ToSlash(name) // Ensure / separated URLs on Windows
+	//	uri, err := url.Parse(name)
+	//	if err != nil {
+	//		return nil, err
+	//	}
 
-	switch uri.Scheme {
-	case "memory":
-		d = memDriver
-	default:
-		return nil, fmt.Errorf("open: unexpected/unsupported scheme: %s", uri.Scheme)
-	}
+	//	switch uri.Scheme {
+	//	case "memory":
+	//		d = memDriver
+	//	default:
+	//		return nil, fmt.Errorf("open: unexpected/unsupported scheme: %s", uri.Scheme)
+	//	}
 
-	name = filepath.Clean(filepath.Join(uri.Host, uri.Path))
+	// name = filepath.Clean(filepath.Join(uri.Host, uri.Path))
 
 	// var headroom int64
 	// if a := uri.Query()["headroom"]; len(a) != 0 {
@@ -156,28 +163,28 @@ func (d *sqlDriver) Open(name string) (driver.Conn, error) {
 	// 	}
 	// }
 
-	defer d.lock()()
-	db := d.dbs[name]
-	if db == nil {
-		var err error
-		var db0 *DB
-		switch d.isMem {
-		case true:
-			db0, err = OpenMem()
-		default:
-			panic("")
-		}
-		if err != nil {
-			return nil, err
-		}
+	//	defer d.lock()()
+	//	db := d.dbs[name]
+	//	if db == nil {
+	//		var err error
+	//		var db0 *DB
+	//		switch d.isMem {
+	//		case true:
+	//			db0, err = OpenMem()
+	//		default:
+	//			panic("")
+	//		}
+	//		if err != nil {
+	//			return nil, err
+	//		}
 
-		db = newDriverDB(db0, name)
-		d.dbs[name] = db
-		return newDriverConn(d, db), nil
-	}
+	//		db = newDriverDB(db0, name)
+	//		d.dbs[name] = db
+	//		return newDriverConn(d, db), nil
+	//	}
 
-	db.refcount++
-	return newDriverConn(d, db), nil
+	//	db.refcount++
+	//	return newDriverConn(d, db), nil
 }
 
 // driverConn is a connection to a database. It is not used concurrently by
@@ -224,14 +231,15 @@ func (c *driverConn) Close() error {
 	for s := range c.stop {
 		err.append(s.Close())
 	}
-	defer c.driver.lock()()
-	dbs, name := c.driver.dbs, c.db.name
-	v := dbs[name]
-	v.refcount--
-	if v.refcount == 0 {
-		err.append(c.db.db.Close())
-		delete(dbs, name)
-	}
+
+	//defer c.driver.lock()()
+	//	dbs, name := c.driver.dbs, c.db.name
+	//	v := dbs[name]
+	//	v.refcount--
+	//	if v.refcount == 0 {
+	//		err.append(c.db.db.Close())
+	//		delete(dbs, name)
+	//	}
 	return err.error()
 }
 

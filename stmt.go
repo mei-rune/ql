@@ -2,14 +2,12 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
-package ql 
+package ql
 
 import (
 	"bytes"
 	"fmt"
 	"strings"
-
-	"sync"
 
 	"github.com/cznic/ql/strutil"
 )
@@ -126,7 +124,7 @@ type execCtx struct { //LATER +shared temp
 	db    *DB
 	arg   []interface{}
 	cache map[interface{}]interface{}
-	mu    sync.RWMutex
+	mu    RWMutex
 }
 
 func newExecCtx(db *DB, arg []interface{}) *execCtx {

@@ -6,7 +6,7 @@
 //LATER profile cpu
 //LATER coverage
 
-package ql 
+package ql
 
 import (
 	"bytes"
@@ -15,7 +15,6 @@ import (
 	"math/big"
 	"strconv"
 	"strings"
-	"sync"
 	"time"
 
 	"github.com/cznic/ql/strutil"
@@ -808,8 +807,8 @@ func (f *col) typeCheck(x interface{}) (ok bool) { //NTYPE
 		return f.typ == qTime
 	case time.Duration:
 		return f.typ == qDuration
-	// case chunk:
-	// 	return true // was checked earlier
+		// case chunk:
+		// 	return true // was checked earlier
 	}
 	return
 }
@@ -826,14 +825,14 @@ func cols2meta(f []*col) (s string) {
 type DB struct {
 	cc          *TCtx // Current transaction context
 	exprCache   map[string]expression
-	exprCacheMu sync.Mutex
+	exprCacheMu Mutex
 	hasIndex2   int // 0: nope, 1: in progress, 2: yes.
 	isMem       bool
-	mu          sync.Mutex
+	mu          Mutex
 	queue       []chan struct{}
 	root        *root
 	rw          bool // DB FSM
-	rwmu        sync.RWMutex
+	rwmu        RWMutex
 	store       storage
 	tnl         int // Transaction nesting level
 }
