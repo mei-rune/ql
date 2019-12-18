@@ -11,7 +11,7 @@
 //
 //   [1]: http://modernc.org/ebnf2y
 
-package ql // import "modernc.org/ql"
+package ql
 
 import __yyfmt__ "fmt"
 

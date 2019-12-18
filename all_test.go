@@ -4289,3 +4289,46 @@ func TestIssue195(t *testing.T) {
 		t.Fatal(err, " index :", index)
 	}
 }
+
+func Test20191218(t *testing.T) {
+	RegisterDriver2()
+	db, err := sql.Open("ql2", "memory://x")
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if err = tx(db, "CREATE TABLE t (f int8);"); err != nil {
+		t.Fatal(err)
+	}
+
+	if err = tx(db, "INSERT INTO t VALUES($1);", 314); err == nil {
+		t.Fatal("missing type checking error")
+	}
+
+	if err = tx(db, "INSERT INTO t VALUES(int8($1));", 42); err != nil {
+		t.Fatal(err)
+	}
+
+	var v int8
+	if err := db.QueryRow("SELECT * FROM t ORDER BY f;").Scan(&v); err != nil {
+		t.Fatal(err)
+	}
+
+	if g, e := v, int8(42); g != e {
+		t.Fatalf("got %v, expected %v", g, e)
+	}
+}
+
+func tx(db *sql.DB, sql string, args ...interface{}) error {
+	tx, err := db.Begin()
+	if err != nil {
+		return err
+	}
+
+	if _, err = tx.Exec(sql, args...); err != nil {
+		tx.Rollback()
+		return err
+	}
+
+	return tx.Commit()
+}

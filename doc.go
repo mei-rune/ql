@@ -297,7 +297,7 @@
 // 	_tmp42
 // 	Sales
 //
-// A quoted identifier is a string of any charaters beween guillmets «».
+// A quoted identifier is a string of any charaters between guillmets «».
 // Quoted identifiers allow QL key words or phrases with spaces to be used
 // as identifiers. The guillemets were chosen because QL already uses
 // double quotes, single quotes, and backticks for other quoting purposes.

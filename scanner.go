@@ -47,8 +47,6 @@ yystate0:
 		goto yystart324
 	}
 
-	goto yystate0 // silence unused label error
-	goto yyAction // silence unused label error
 yyAction:
 	switch yyrule {
 	case 1:
@@ -254,7 +252,6 @@ yyAction:
 	case 101:
 		goto yyrule101
 	}
-	goto yystate1 // silence unused label error
 yystate1:
 	c = l.Next()
 yystart1:
@@ -4252,7 +4249,6 @@ yystate317:
 	l.Mark()
 	goto yyrule15
 
-	goto yystate318 // silence unused label error
 yystate318:
 	c = l.Next()
 yystart318:
@@ -4331,7 +4327,6 @@ yystate323:
 		goto yystate319
 	}
 
-	goto yystate324 // silence unused label error
 yystate324:
 	c = l.Next()
 yystart324:
@@ -4809,7 +4804,7 @@ yyrule100: // {ident}
 		return identifier
 	}
 yyrule101: // ($|\?)({D}|{ident})
-	{
+	if true { // avoid go vet determining the below panic will not be reached
 		s := string(l.TokenBytes(nil)[1:])
 		lval.item, _ = strconv.Atoi(s)
 		if s != "" && s[0] < '1' || s[0] > '9' {
@@ -4819,9 +4814,28 @@ yyrule101: // ($|\?)({D}|{ident})
 	}
 	panic("unreachable")
 
-	goto yyabort // silence unused label error
-
 yyabort: // no lexem recognized
+	//
+	// silence unused label errors for build and satisfy go vet reachability analysis
+	//
+	{
+		if false {
+			goto yyabort
+		}
+		if false {
+			goto yystate0
+		}
+		if false {
+			goto yystate1
+		}
+		if false {
+			goto yystate318
+		}
+		if false {
+			goto yystate324
+		}
+	}
+
 	if c, ok := l.Abort(); ok {
 		return c
 	}
