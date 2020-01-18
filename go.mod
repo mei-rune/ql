@@ -1,4 +1,4 @@
-module modernc.org/ql
+module github.com/cznic/ql
 
 require (
 	github.com/edsrzf/mmap-go v0.0.0-20170320065105-0bce6a688712 // indirect
